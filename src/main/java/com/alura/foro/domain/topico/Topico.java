@@ -4,20 +4,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.web.WebProperties.Resources.Chain.Strategy;
-
 import com.alura.foro.domain.curso.Curso;
 import com.alura.foro.domain.respuesta.Respuesta;
 import com.alura.foro.domain.usuario.Usuario;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Topico {
 
 	@Id
@@ -37,9 +40,12 @@ public class Topico {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusTopico estatus = StatusTopico.NO_RESPONDIDO;
-//	private Usuario autor;
-//	private Curso curso;
-//	private List<Respuesta> respuestas = new ArrayList<>();
+	@ManyToOne
+	private Usuario autor;
+	@ManyToOne
+	private Curso curso;
+	@OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Respuesta> respuestas = new ArrayList<>();
 	private boolean activo;
 
 	
@@ -50,13 +56,16 @@ public class Topico {
 	public Topico(String titulo, String mensaje, Curso curso) {
 		this.titulo = titulo;
 		this.mensaje = mensaje;
-//		this.curso = curso;
+		this.curso = curso;
 	}
 
 	public Topico(DatosRegistroTopico datosRegistroTopico) {
 		this.activo = true;
 		this.titulo = datosRegistroTopico.titulo();
 		this.mensaje = datosRegistroTopico.mensaje();
+//		this.autor = datosRegistroTopico.autor();
+//		this.curso = datosRegistroTopico.curso();
+
 	}
 
 	@Override
@@ -127,13 +136,11 @@ public class Topico {
 	public void actualizarTopico(DatosActualizarTopico datosActualizarTopico) {
 		if(datosActualizarTopico.titulo() != null) {
 			this.titulo = datosActualizarTopico.titulo();
+			
 		}
-		
 		if(datosActualizarTopico.mensaje() != null) {
 			this.mensaje = datosActualizarTopico.mensaje();
-		}
-		if(datosActualizarTopico.estatus() != null) {
-			this.estatus = datosActualizarTopico.estatus();
+			
 		}
 				
 	}
@@ -143,28 +150,28 @@ public class Topico {
 		
 	}
 
-//	public Usuario getAutor() {
-//		return autor;
-//	}
-//
-//	public void setAutor(Usuario autor) {
-//		this.autor = autor;
-//	}
-//
-//	public Curso getCurso() {
-//		return curso;
-//	}
-//
-//	public void setCurso(Curso curso) {
-//		this.curso = curso;
-//	}
-//
-//	public List<Respuesta> getRespuestas() {
-//		return respuestas;
-//	}
-//
-//	public void setRespuestas(List<Respuesta> respuestas) {
-//		this.respuestas = respuestas;
-//	}
+	public Usuario getAutor() {
+		return autor;
+	}
+
+	public void setAutor(Usuario autor) {
+		this.autor = autor;
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public List<Respuesta> getRespuestas() {
+		return respuestas;
+	}
+
+	public void setRespuestas(List<Respuesta> respuestas) {
+		this.respuestas = respuestas;
+	}
 
 }

@@ -1,8 +1,6 @@
 package com.alura.foro.domain.topico;
 
 import com.alura.foro.domain.curso.Curso;
-import com.alura.foro.domain.curso.DatosRegistroCurso;
-import com.alura.foro.domain.usuario.DatosRegistroUsuario;
 import com.alura.foro.domain.usuario.Usuario;
 
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +11,10 @@ public record DatosRegistroTopico(
 		String titulo, 
 		@NotBlank
 		String mensaje
+//		@NotNull
+//		Usuario autor,
+//		@NotNull
+//		Curso curso
 		) {
 
 }
