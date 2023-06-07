@@ -63,8 +63,8 @@ public class Topico {
 		this.activo = true;
 		this.titulo = datosRegistroTopico.titulo();
 		this.mensaje = datosRegistroTopico.mensaje();
-//		this.autor = datosRegistroTopico.autor();
-//		this.curso = datosRegistroTopico.curso();
+//		this.autor = usuario.getNombre();
+//		this.curso = curso.getNombre();
 
 	}
 
